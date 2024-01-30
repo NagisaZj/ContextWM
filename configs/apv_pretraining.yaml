@@ -121,7 +121,7 @@ metaworld_pretrain:
   grad_heads: [decoder]
   model_opt.lr: 3e-4
   # loss_scales.kl: 0.1
-
+ 
 
 something_pretrain:
 

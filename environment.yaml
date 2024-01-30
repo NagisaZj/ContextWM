@@ -10,6 +10,8 @@ dependencies:
   - pip:
     - -f https://download.pytorch.org/whl/cu113/torch_stable.html
     - torch==1.12.1+cu113
+    - setuptools==65.5.0
+    - wheel==0.38.0
     - torchvision==0.13.1+cu113
     - numpy==1.23
     - kornia==0.6.5

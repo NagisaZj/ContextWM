@@ -60,8 +60,62 @@ class DummyReplay:  # A wrapper make datasets behave like replay buffers
             action = np.zeros((image.shape[0], 1), dtype=np.float32)
             is_first = np.zeros((image.shape[0]), dtype=bool)
             is_first[0] = True
+            # print(image.shape,is_first.shape)
             chunk = {
                 'image': image,
+                'action': action,
+                'is_first': is_first,
+            }
+            # from T,H,W,C to T,C,H,W
+            if len(chunk['image'].shape) == 4:
+                chunk['image'] = chunk['image'].transpose(0, 3, 1, 2)
+            yield chunk
+
+    def dataset(self, batch, length, pin_memory=True, num_workers=8, **kwargs):
+        generator = lambda: self._generate_chunks(length)
+
+        class ReplayDataset(IterableDataset):
+            def __iter__(self):
+                return generator()
+
+        dataset = ReplayDataset()
+        dataset = DataLoader(
+            dataset,
+            batch,
+            pin_memory=pin_memory,
+            drop_last=True,
+            worker_init_fn=seed_worker,
+            num_workers=num_workers,
+            **kwargs
+        )
+        return dataset
+
+    @property
+    def stats(self):
+        return {
+            "total_steps": 0,
+            "total_episodes": 0,
+            "loaded_steps": self.video_dataset.total_steps,
+            "loaded_episodes": len(self.video_dataset),
+        }
+
+
+class DummyDoubleReplay:  # A wrapper make datasets behave like replay buffers
+
+    def __init__(self, video_dataset) -> None:
+        self.video_dataset = video_dataset
+
+    def _generate_chunks(self, length):
+        while True:
+            ind = np.random.randint(1,len(self.video_dataset))
+            image = self.video_dataset[ind]
+            prev_image = np.concatenate([self.video_dataset[ind][0],self.video_dataset[ind][:-1]],0) 
+            action = np.zeros((image.shape[0], 1), dtype=np.float32)
+            is_first = np.zeros((image.shape[0]), dtype=bool)
+            is_first[0] = True
+            chunk = {
+                'image': image,
+                'prev_image': prev_image,
                 'action': action,
                 'is_first': is_first,
             }

@@ -6,7 +6,7 @@ import os
 import threading
 
 NUM_THREADS = 100
-VIDEO_ROOT = '20bn-something-something-v2'         # Downloaded webm videos
+VIDEO_ROOT = '/data/zj/ContextWM/data/somethingv2/sthv2/20bn-something-something-v2'         # Downloaded webm videos
 IMAGE_SIZE = 64
 FRAME_ROOT = f'20bn-something-something-v2-frames-{IMAGE_SIZE}'  # Directory for extracted frames
 

@@ -13,6 +13,7 @@ class APV_Pretrain(core.Module):
         self.obs_space = obs_space
         self.act_space = act_space["action"]
         self.step = step
+        # self.inverse_dynamics
         self.wm = WorldModel(config, obs_space, self.step)
 
         self.init_modules()
@@ -88,6 +89,7 @@ class WorldModel(core.Module):
         self.config = config
         self.step = step
 
+        # self.inverse_dynamics = nets.
         self.rssm = nets.EnsembleRSSM(**config.rssm)
 
         if self.config.encoder_type == 'plaincnn':
@@ -98,7 +100,7 @@ class WorldModel(core.Module):
             self.encoder = nets.ContextualizedResNetEncoder(shapes, **config.encoder, **config.encoder_ctx)
         else:
             raise NotImplementedError
-
+    
         self.heads = torch.nn.ModuleDict()
 
         if self.config.decoder_type == 'plaincnn':

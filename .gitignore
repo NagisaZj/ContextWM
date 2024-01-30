@@ -9,3 +9,9 @@ pretrained_models
 .vscode/
 .idea
 wmlib/envs/dmcr/assets
+logs/
+models/
+data/somethingv2/20bn-something-something-v2-frames-64/
+data/somethingv2/sthv2/
+dmc_remastered/
+metaworld/

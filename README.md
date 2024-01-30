@@ -125,7 +125,7 @@ Run the following command to pre-train world models.
 **Something-Something-V2**
 
 ```
-python examples/train_apv_pretraining.py --logdir {save path} --configs something_pretrain contextualized --video_list train_video_folder --steps 1200000 --save_all_models True --video_dir {path to extracted video frames}
+CUDA_VISIBLE_DEVICES=5 python examples/train_apv_pretraining.py --logdir ./logs/pretrain_sthv2 --configs something_pretrain contextualized --video_list train_video_folder --steps 1200000 --save_all_models True --video_dir /data/zj/ContextWM/data/somethingv2/20bn-something-something-v2-frames-64
 ```
 
 **Human3.6M**
@@ -148,6 +148,8 @@ Run the following commands to start model-based RL with pre-trained world models
 
 ```
 python examples/train_apv_finetuning.py --logdir {save path} --configs metaworld contextualized --task metaworld_{task, e.g. drawer_open} --seed 0 --loss_scales.reward 1.0 --loss_scales.aux_reward 1.0 --encoder_ctx.ctx_aug erasing --load_logdir {path to the pre-trained models}
+
+CUDA_VISIBLE_DEVICES=5 python examples/train_apv_finetuning.py --logdir ./logs/test1_drawer_open --configs metaworld contextualized --task metaworld_drawer_open --seed 0 --loss_scales.reward 1.0 --loss_scales.aux_reward 1.0 --encoder_ctx.ctx_aug erasing --load_logdir /data/zj/ContextWM/models/contextwm_ssv2
 ```
 
 Note that for the drawer open task, we find removing `--encoder_ctx.ctx_aug erasing` slightly improves the performance, thus we disable this option for our reported results of this task. All other Meta-world tasks enable this option.

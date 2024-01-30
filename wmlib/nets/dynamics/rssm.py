@@ -12,7 +12,7 @@ from ... import core
 from ..modules import *
 from .base import BaseDynamics, State
 
-
+    
 class EnsembleRSSM(BaseDynamics):
     r"""
     References:

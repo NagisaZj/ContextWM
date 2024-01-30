@@ -45,7 +45,7 @@ def main():
     for name in parsed.configs:
         config = config.update(configs[name])
     config = utils.Flags(config).parse(remaining)
-
+    
     logdir = pathlib.Path(config.logdir).expanduser()
     load_logdir = pathlib.Path(config.load_logdir).expanduser()
     load_model_dir = pathlib.Path(config.load_model_dir).expanduser()
